@@ -54,7 +54,7 @@ if st.button("Predict DDoS Attack"):
     # Print raw probability for debugging
 
     # Interpret prediction (Adjust threshold if needed)
-    threshold = 0.5  # Adjust if necessary (e.g., 0.3 for more sensitivity)
+    threshold = 0.3  # Adjust if necessary (e.g., 0.3 for more sensitivity)
     result = "🚀 **DDoS Attack Detected!**" if prediction[0][0] > threshold else "✅ **Normal Traffic**"
 
     # Display prediction result
