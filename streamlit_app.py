@@ -24,7 +24,7 @@ st.title("🔄 DDoS Attack Prediction System")
 
 # User Input Section
 st.write("### **Enter Network Traffic Features:**")
-destination_port = st.number_input("Destination Port (e.g., 80, 443, 22, 53)", min_value=0, max_value=65535, value=80)
+destination_port = st.number_input(min_value=0, max_value=65535, value=80)
 flow_duration = st.number_input("Flow Duration (in ms)", min_value=1, value=1000)
 fwd_packet_length_mean = st.number_input("Fwd Packet Length Mean", min_value=1, value=500)
 bwd_packet_length_mean = st.number_input("Bwd Packet Length Mean", min_value=1, value=500)
