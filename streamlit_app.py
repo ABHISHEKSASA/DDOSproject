@@ -2,52 +2,80 @@ import streamlit as st
 import numpy as np
 import tensorflow as tf
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import precision_recall_curve
 
-# ==============================
-# ✅ Model and Scaler Definition
-# ==============================
+# ===========================
+# ✅ Model and Data Functions
+# ===========================
 
 @st.cache_resource
-def create_and_train_model():
-    """Creates and trains a simple CNN model for demonstration."""
+def create_model():
+    """Create and compile the LSTM model."""
     model = tf.keras.Sequential([
         tf.keras.layers.Input(shape=(7, 1)),
-        tf.keras.layers.Conv1D(32, kernel_size=3, activation='relu'),
-        tf.keras.layers.MaxPooling1D(pool_size=2),
-        tf.keras.layers.Flatten(),
+        tf.keras.layers.LSTM(64, return_sequences=False),
         tf.keras.layers.Dense(64, activation='relu'),
-        tf.keras.layers.Dense(1, activation='sigmoid')  # Binary classification (DDoS or Normal)
+        tf.keras.layers.Dense(1, activation='sigmoid')  # Binary classification
     ])
-
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-
-    # Dummy training for demonstration purposes
-    X_train = np.random.rand(100, 7, 1)
-    y_train = np.random.randint(0, 2, 100)
-
-    model.fit(X_train, y_train, epochs=5, batch_size=16, verbose=0)
-    
-    st.success("✅ Model Created and Trained!")
     return model
 
+
 @st.cache_resource
-def create_scaler():
-    """Creates and fits a scaler using random training data."""
-    X_train = np.random.rand(100, 7)
+def generate_data():
+    """Generate dummy DDoS and normal traffic data."""
+    np.random.seed(42)
+
+    # Simulate normal traffic
+    normal_data = np.random.normal(loc=500, scale=100, size=(1000, 7))
+    normal_labels = np.zeros((1000, 1))
+
+    # Simulate DDoS traffic
+    ddos_data = np.random.normal(loc=10000, scale=2000, size=(500, 7))
+    ddos_labels = np.ones((500, 1))
+
+    # Combine and shuffle
+    X = np.vstack((normal_data, ddos_data))
+    y = np.vstack((normal_labels, ddos_labels))
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
     scaler = StandardScaler()
-    scaler.fit(X_train)
-    st.success("✅ Scaler Created and Fitted!")
-    return scaler
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
 
-# Load model and scaler
-cnn_model = create_and_train_model()
-scaler = create_scaler()
+    # Reshape for LSTM
+    X_train_scaled = X_train_scaled.reshape(-1, 7, 1)
+    X_test_scaled = X_test_scaled.reshape(-1, 7, 1)
 
-# ==============================
-# ✅ Streamlit UI
-# ==============================
+    return X_train_scaled, X_test_scaled, y_train, y_test, scaler
 
-st.title("🔄 DDoS Attack Prediction System")
+
+@st.cache_resource(show_spinner=True)
+def train_model(cache_key):
+    """Train the LSTM model."""
+    model = create_model()
+    X_train, X_test, y_train, y_test, scaler = generate_data()
+
+    model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test), verbose=0)
+
+    # Precision-recall curve
+    predictions = model.predict(X_test).flatten()
+    precision, recall, thresholds = precision_recall_curve(y_test.flatten(), predictions)
+
+    # Handle threshold calculation properly
+    f1_scores = (2 * precision * recall) / (precision + recall + 1e-10)  # Prevent divide by zero
+    best_threshold = thresholds[np.argmax(f1_scores) - 1] if len(thresholds) < len(f1_scores) else thresholds[np.argmax(f1_scores)]
+
+    return model, scaler, best_threshold
+
+
+# ===========================
+# ✅ UI and User Input
+# ===========================
+
+st.title("🚀 DDoS Attack Detection System")
 st.write("### **Enter Network Traffic Features:**")
 
 # User Input Section
@@ -64,37 +92,25 @@ input_data = np.array([[destination_port, flow_duration, fwd_packet_length_mean,
                         bwd_packet_length_mean, flow_bytes_per_s, flow_packets_per_s, flow_iat_mean]],
                       dtype=np.float32)
 
-# ==============================
-# ✅ Prediction Logic
-# ==============================
+# ===========================
+# ✅ Model Prediction
+# ===========================
 
 if st.button("🚀 Predict DDoS Attack"):
-    if cnn_model is None or scaler is None:
-        st.error("❌ Model or scaler not loaded properly!")
+    model, scaler, best_threshold = train_model(np.random.randint(0, 10000))
+
+    # Scale input data
+    scaled_input_data = scaler.transform(input_data)
+    scaled_input_data = scaled_input_data.reshape(1, 7, 1)
+
+    # Make prediction
+    prediction = model.predict(scaled_input_data)[0][0]
+
+    # Display results
+    st.write(f"### ⚙️ Raw Prediction Probability: {prediction:.4f}")
+    st.write(f"### 🚦 Threshold: {best_threshold:.4f}")
+
+    if prediction > best_threshold:
+        st.error("🚀 **DDoS Attack Detected!**")
     else:
-        # Scale input data
-        try:
-            scaled_input_data = scaler.transform(input_data)
-        except Exception as e:
-            st.error(f"Scaling Error: {e}")
-            scaled_input_data = input_data  # Fallback in case of scaling issue
-
-        # Log for debugging
-        st.write("### 📊 Raw Input Data:", input_data)
-        st.write("### 🔥 Scaled Input Data:", scaled_input_data)
-
-        # Adjust shape based on model input
-        scaled_input_data = scaled_input_data.reshape(1, 7, 1)
-
-        # Make prediction
-        prediction = cnn_model.predict(scaled_input_data)
-        st.write("### ⚙️ Raw Prediction Probability:", prediction[0][0])
-
-        # Interpret prediction
-        threshold = 0.05  # Adjust as needed
-        if prediction[0][0] > threshold:
-            result = "🚀 **DDoS Attack Detected!**"
-            st.error(result)
-        else:
-            result = "✅ **Normal Traffic**"
-            st.success(result)
+        st.success("✅ **Normal Traffic**")
