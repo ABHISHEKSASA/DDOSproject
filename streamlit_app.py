@@ -1,39 +1,47 @@
 import streamlit as st
 import numpy as np
 import tensorflow as tf
-import pickle
-import os
+from sklearn.preprocessing import StandardScaler
 
 # ==============================
-# ✅ Model and Scaler Loading
+# ✅ Model and Scaler Definition
 # ==============================
 
-# Cache model and scaler loading
 @st.cache_resource
-def load_model():
-    model_path = "ddos_cnn_model.h5"  # Ensure correct pth
-    if os.path.exists(model_path):
-        model = tf.keras.models.load_model(model_path)
-        st.success("✅ Model Loaded Successfully!")
-        return model
-    else:
-        st.error("❌ Model file not found!")
-        return None
+def create_and_train_model():
+    """Creates and trains a simple CNN model for demonstration."""
+    model = tf.keras.Sequential([
+        tf.keras.layers.Input(shape=(7, 1)),
+        tf.keras.layers.Conv1D(32, kernel_size=3, activation='relu'),
+        tf.keras.layers.MaxPooling1D(pool_size=2),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(64, activation='relu'),
+        tf.keras.layers.Dense(1, activation='sigmoid')  # Binary classification (DDoS or Normal)
+    ])
+
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+    # Dummy training for demonstration purposes
+    X_train = np.random.rand(100, 7, 1)
+    y_train = np.random.randint(0, 2, 100)
+
+    model.fit(X_train, y_train, epochs=5, batch_size=16, verbose=0)
+    
+    st.success("✅ Model Created and Trained!")
+    return model
 
 @st.cache_resource
-def load_scaler():
-    scaler_path = "scaler.pkl"  # Ensure correct path
-    if os.path.exists(scaler_path):
-        with open(scaler_path, "rb") as f:
-            scaler = pickle.load(f)
-        st.success("✅ Scaler Loaded Successfully!")
-        return scaler
-    else:
-        st.error("❌ Scaler file not found!")
-        return None
+def create_scaler():
+    """Creates and fits a scaler using random training data."""
+    X_train = np.random.rand(100, 7)
+    scaler = StandardScaler()
+    scaler.fit(X_train)
+    st.success("✅ Scaler Created and Fitted!")
+    return scaler
 
-cnn_model = load_model()
-scaler = load_scaler()
+# Load model and scaler
+cnn_model = create_and_train_model()
+scaler = create_scaler()
 
 # ==============================
 # ✅ Streamlit UI
@@ -76,13 +84,7 @@ if st.button("🚀 Predict DDoS Attack"):
         st.write("### 🔥 Scaled Input Data:", scaled_input_data)
 
         # Adjust shape based on model input
-        model_input_shape = cnn_model.input_shape
-        st.write("### 🔧 Model Input Shape:", model_input_shape)
-
-        if len(model_input_shape) == 3:
-            scaled_input_data = scaled_input_data.reshape(1, 7, 1)  # Reshape for CNN
-        elif len(model_input_shape) == 2:
-            scaled_input_data = scaled_input_data.reshape(1, 7)
+        scaled_input_data = scaled_input_data.reshape(1, 7, 1)
 
         # Make prediction
         prediction = cnn_model.predict(scaled_input_data)
@@ -96,4 +98,3 @@ if st.button("🚀 Predict DDoS Attack"):
         else:
             result = "✅ **Normal Traffic**"
             st.success(result)
-
