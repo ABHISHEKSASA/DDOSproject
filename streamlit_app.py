@@ -11,7 +11,7 @@ import os
 # Cache model and scaler loading
 @st.cache_resource
 def load_model():
-    model_path = "ddos_cnn_model.h5"  # Ensure correct path
+    model_path = "ddos_cnn_model.h5"  # Ensure correct pth
     if os.path.exists(model_path):
         model = tf.keras.models.load_model(model_path)
         st.success("✅ Model Loaded Successfully!")
