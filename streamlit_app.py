@@ -91,7 +91,7 @@ if st.button("🚀 Predict DDoS Attack"):
         st.write("### ⚙️ Raw Prediction Probability:", prediction[0][0])
 
         # Interpret prediction
-        threshold = 0.3  # Adjust as needed
+        threshold = 0.05  # Adjust as needed
         if prediction[0][0] > threshold:
             result = "🚀 **DDoS Attack Detected!**"
             st.error(result)
