@@ -74,4 +74,3 @@ if st.button("Start Detection"):
 
         except KeyboardInterrupt:
             st.write("🛑 Monitoring stopped.")
-
