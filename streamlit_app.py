@@ -1,10 +1,11 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 import pickle
 import time
 
-# Load the CNN model
+# 📥 Load the CNN model
 @st.cache_resource
 def load_model():
     model = tf.keras.models.load_model("ddos_cnn_model (2).h5")  # Ensure correct path
@@ -12,7 +13,7 @@ def load_model():
 
 cnn_model = load_model()
 
-# Load the saved scaler
+# 📥 Load the saved scaler
 @st.cache_resource
 def load_scaler():
     with open("scaler (2).pkl", "rb") as f:
@@ -21,55 +22,50 @@ def load_scaler():
 
 scaler = load_scaler()
 
-# Streamlit UI
-st.title("🔄 DDoS Attack Prediction System (Automatic Detection)")
+# 📊 Load real-world traffic data (CSV format)
+@st.cache_resource
+def load_traffic_data():
+    # Replace with the path to your dataset
+    file_path = "ddos_traffic.csv"  # Ensure the CSV contains the required features
+    df = pd.read_csv(file_path)
+    
+    # Select the 7 required features for prediction
+    feature_cols = ["Dst Port", "Flow Duration", "Fwd Packet Length Mean", 
+                    "Bwd Packet Length Mean", "Flow Bytes/s", "Flow Packets/s", 
+                    "Flow IAT Mean"]
+    
+    # Extract features
+    traffic_data = df[feature_cols].values
+    return traffic_data
+
+# Load traffic data
+traffic_data = load_traffic_data()
+
+# 🎯 Streamlit UI
+st.title("🔄 DDoS Attack Prediction System (Real-World Data)")
 
 # UI layout
 col1, col2 = st.columns(2)
 start_btn = col1.button("▶️ Start Detection")
 stop_btn = col2.button("🛑 Stop Detection")
 
-# ⚙️ Simulate 50% Normal and 50% DDoS Traffic
-def generate_traffic():
-    """Simulate equal distribution of normal and DDoS-like network traffic."""
-    if np.random.random() < 0.5:  # 50% normal, 50% DDoS
-        # Normal traffic
-        return np.array([[np.random.randint(0, 65535),     # Destination Port
-                          np.random.randint(100, 10000),   # Flow Duration (ms)
-                          np.random.randint(50, 1500),     # Fwd Packet Length Mean
-                          np.random.randint(50, 1500),     # Bwd Packet Length Mean
-                          np.random.uniform(1000, 100000), # Flow Bytes/s (normal)
-                          np.random.uniform(10, 100),      # Flow Packets/s
-                          np.random.uniform(100, 1000)]],  # Flow IAT Mean
-                        dtype=np.float32)
-    else:
-        # DDoS traffic
-        return np.array([[80,               # Destination Port (fixed)
-                          10000,            # Long Flow Duration (ms)
-                          1400,             # Large Fwd Packet Length Mean
-                          1400,             # Large Bwd Packet Length Mean
-                          950000.0,         # High Flow Bytes/s
-                          980.0,            # High Flow Packets/s
-                          5.0]], dtype=np.float32)  # Low IAT (frequent packets)
+# 💡 Initialize state variables
+if 'running' not in st.session_state:
+    st.session_state['running'] = False
 
-# Continuous monitoring logic
-status_placeholder = st.empty()
-traffic_placeholder = st.empty()
-
-# DDoS detection threshold
-threshold = 0.3  
-
-# Start/Stop button handling
 if start_btn:
     st.session_state['running'] = True
 
 if stop_btn:
     st.session_state['running'] = False
 
-if 'running' not in st.session_state:
-    st.session_state['running'] = False
+# 🟢 Detection Loop
+status_placeholder = st.empty()
+traffic_placeholder = st.empty()
 
-# Detection loop
+# DDoS detection threshold
+threshold = 0.3  
+
 if st.session_state['running']:
     st.write("### 🚀 **Real-Time Network Traffic Detection:**")
 
@@ -77,12 +73,17 @@ if st.session_state['running']:
     ddos_count = 0
 
     try:
-        while st.session_state['running']:
-            # Generate traffic data
-            input_data = generate_traffic()
+        for i in range(len(traffic_data)):
+            if not st.session_state['running']:
+                break
 
-            # Scale and reshape input for the CNN model
+            # Get the current sample
+            input_data = traffic_data[i].reshape(1, -1)
+
+            # Scale the input data
             scaled_input = scaler.transform(input_data)
+
+            # Reshape for CNN model compatibility
             model_input_shape = cnn_model.input_shape
 
             if len(model_input_shape) == 3:
@@ -92,7 +93,7 @@ if st.session_state['running']:
 
             # Make prediction
             prediction = cnn_model.predict(scaled_input)
-
+            
             # Determine if DDoS or normal
             is_ddos = prediction[0][0] > threshold
 
@@ -131,7 +132,7 @@ if st.session_state['running']:
             st.write(f"- **DDoS Attacks:** {ddos_count}")
             st.write(f"- **Normal Traffic:** {normal_count}")
 
-            # Refresh every 2 seconds
+            # Refresh every second
             time.sleep(1)
 
     except Exception as e:
