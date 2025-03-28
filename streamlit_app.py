@@ -60,7 +60,7 @@ threshold = 0.3
 
 # Detection loop (one by one)
 if st.session_state['running']:
-    st.write("### 🚀 **Real-Time Traffic Detection:**")
+    st.write("###  **Real-Time Traffic Detection:**")
 
     normal_count = 0
     ddos_count = 0
