@@ -22,12 +22,12 @@ def load_scaler():
 scaler = load_scaler()
 
 # Streamlit UI
-st.title("🔄 DDoS Attack Prediction System (Real-Time)")
+st.title(" DDoS Attack Prediction System (Real-Time)")
 
 # UI layout
 col1, col2 = st.columns(2)
-start_btn = col1.button("▶️ Start Detection")
-stop_btn = col2.button("🛑 Stop Detection")
+start_btn = col1.button(" Start Detection")
+stop_btn = col2.button(" Stop Detection")
 
 # ⚙️ Simulate Random Traffic (One at a Time)
 def generate_traffic():
@@ -95,18 +95,18 @@ if st.session_state['running']:
             traffic_placeholder.write(
                 f"""
                 **Traffic Data:**  
-                - 🌐 **Destination Port:** {int(input_data[0][0])}  
-                - ⏱️ **Flow Duration (ms):** {int(input_data[0][1])}  
-                - 📦 **Fwd Packet Length Mean:** {int(input_data[0][2])}  
-                - 📦 **Bwd Packet Length Mean:** {int(input_data[0][3])}  
-                - 🔥 **Flow Bytes/s:** {input_data[0][4]:,.2f}  
-                - 🚀 **Flow Packets/s:** {input_data[0][5]:,.2f}  
-                - ⏲️ **Flow IAT Mean:** {input_data[0][6]:,.2f}
+                -  **Destination Port:** {int(input_data[0][0])}  
+                -  **Flow Duration (ms):** {int(input_data[0][1])}  
+                -  **Fwd Packet Length Mean:** {int(input_data[0][2])}  
+                -  **Bwd Packet Length Mean:** {int(input_data[0][3])}  
+                -  **Flow Bytes/s:** {input_data[0][4]:,.2f}  
+                -  **Flow Packets/s:** {input_data[0][5]:,.2f}  
+                -  **Flow IAT Mean:** {input_data[0][6]:,.2f}
                 """
             )
 
             # Display Detection Result
-            result = "🚀 **DDoS Attack Detected!**" if is_ddos else "✅ **Normal Traffic**"
+            result = " **DDoS Attack Detected!**" if is_ddos else "Normal Traffic"
             color = "red" if is_ddos else "green"
 
             status_placeholder.markdown(
@@ -116,7 +116,7 @@ if st.session_state['running']:
             )
 
             # Display Stats
-            st.write("### 📊 **Traffic Statistics:**")
+            st.write("###  **Traffic Statistics:**")
             st.write(f"- **DDoS Attacks:** {ddos_count}")
             st.write(f"- **Normal Traffic:** {normal_count}")
 
