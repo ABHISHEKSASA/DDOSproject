@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import tensorflow as tf
 import pickle
+import time
 
 # Load the CNN model
 @st.cache_resource
@@ -20,43 +21,57 @@ def load_scaler():
 
 scaler = load_scaler()
 
-st.title("🔄 DDoS Attack Prediction System")
+st.title("🔄 DDoS Attack Prediction System (Automatic Detection)")
 
-# User Input Section
+# Function to simulate random network traffic data
+def generate_traffic_data():
+    destination_port = np.random.randint(0, 65535)
+    flow_duration = np.random.randint(100, 10000)  # Flow duration in ms
+    fwd_packet_length_mean = np.random.randint(50, 1500)
+    bwd_packet_length_mean = np.random.randint(50, 1500)
+    flow_bytes_per_s = np.random.uniform(1000, 1_000_000)  # Bytes per second
+    flow_packets_per_s = np.random.uniform(10, 1000)  # Packets per second
+    flow_iat_mean = np.random.uniform(1, 1000)  # Inter-Arrival Time mean
 
-st.write("### **Enter Network Traffic Features:**")
-destination_port = st.number_input("Destination", min_value=0, max_value=65535, value=80)
-flow_duration = st.number_input("Flow Duration (in ms)", min_value=1, value=1000)
-fwd_packet_length_mean = st.number_input("Fwd Packet Length Mean", min_value=1, value=500)
-bwd_packet_length_mean = st.number_input("Bwd Packet Length Mean", min_value=1, value=500)
-flow_bytes_per_s = st.number_input("Flow Bytes/s", min_value=0.1, value=50000.0)
-flow_packets_per_s = st.number_input("Flow Packets/s", min_value=0.1, value=50.0)
-flow_iat_mean = st.number_input("Flow IAT Mean", min_value=0.1, value=100.0)
+    return np.array([[destination_port, flow_duration, fwd_packet_length_mean, 
+                      bwd_packet_length_mean, flow_bytes_per_s, 
+                      flow_packets_per_s, flow_iat_mean]], dtype=np.float32)
 
-# Collect user input into a NumPy array
-input_data = np.array([[destination_port, flow_duration, fwd_packet_length_mean, 
-                        bwd_packet_length_mean, flow_bytes_per_s, flow_packets_per_s, flow_iat_mean]], dtype=np.float32)
+# Automatic prediction loop
+placeholder = st.empty()
 
-# Predict Button
-if st.button("Predict DDoS Attack"):
-    # Scale input data
-    scaled_input_data = scaler.transform(input_data)
+# Threshold for DDoS detection
+threshold = 0.3  # Adjust sensitivity if needed
 
-    # Adjust shape based on model input
-    model_input_shape = cnn_model.input_shape
-    if len(model_input_shape) == 3:
-        scaled_input_data = scaled_input_data.reshape(1, 7, 1)  # Reshape for CNN
-    elif len(model_input_shape) == 2:
-        scaled_input_data = scaled_input_data.reshape(1, 7)
+# Continuous monitoring
+st.write("### **Real-Time Network Traffic Detection:**")
 
-    # Predict using the CNN model
-    prediction = cnn_model.predict(scaled_input_data)
+# Start detection loop
+if st.button("Start Detection"):
+    with st.spinner("Monitoring traffic... Press STOP to end."):
+        try:
+            while True:
+                # Simulate traffic data
+                input_data = generate_traffic_data()
 
-    # Print raw probability for debugging
+                # Scale input data
+                scaled_input_data = scaler.transform(input_data)
 
-    # Interpret prediction (Adjust threshold if needed)
-    threshold = 0.3  # Adjust if necessary (e.g., 0.3 for more sensitivity)
-    result = "🚀 **DDoS Attack Detected!**" if prediction[0][0] > threshold else "✅ **Normal Traffic**"
+                # Reshape for CNN input
+                model_input_shape = cnn_model.input_shape
+                if len(model_input_shape) == 3:
+                    scaled_input_data = scaled_input_data.reshape(1, 7, 1)
+                elif len(model_input_shape) == 2:
+                    scaled_input_data = scaled_input_data.reshape(1, 7)
 
-    # Display prediction result
-    st.write("### **Prediction:**", result)
+                # Make prediction
+                prediction = cnn_model.predict(scaled_input_data)
+                result = "🚀 **DDoS Attack Detected!**" if prediction[0][0] > threshold else "✅ **Normal Traffic**"
+
+                # Display real-time result
+                placeholder.write(f"### **Prediction:** {result}")
+                time.sleep(2)  # Update every 2 seconds
+
+        except KeyboardInterrupt:
+            st.write("🛑 Monitoring stopped.")
+
