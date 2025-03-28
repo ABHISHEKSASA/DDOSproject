@@ -29,10 +29,11 @@ col1, col2 = st.columns(2)
 start_btn = col1.button("▶️ Start Detection")
 stop_btn = col2.button("🛑 Stop Detection")
 
-# DDoS-like traffic generator
+# ⚙️ Simulate 50% Normal and 50% DDoS Traffic
 def generate_traffic():
-    """Simulate random or DDoS-like network traffic."""
-    if np.random.random() < 0.7:  # 70% normal traffic, 30% DDoS
+    """Simulate equal distribution of normal and DDoS-like network traffic."""
+    if np.random.random() < 0.5:  # 50% normal, 50% DDoS
+        # Normal traffic
         return np.array([[np.random.randint(0, 65535),     # Destination Port
                           np.random.randint(100, 10000),   # Flow Duration (ms)
                           np.random.randint(50, 1500),     # Fwd Packet Length Mean
@@ -42,7 +43,7 @@ def generate_traffic():
                           np.random.uniform(100, 1000)]],  # Flow IAT Mean
                         dtype=np.float32)
     else:
-        # Simulated DDoS traffic
+        # DDoS traffic
         return np.array([[80,               # Destination Port (fixed)
                           10000,            # Long Flow Duration (ms)
                           1400,             # Large Fwd Packet Length Mean
@@ -58,7 +59,7 @@ traffic_placeholder = st.empty()
 # DDoS detection threshold
 threshold = 0.3  
 
-# Start detection loop
+# Start/Stop button handling
 if start_btn:
     st.session_state['running'] = True
 
@@ -70,7 +71,11 @@ if 'running' not in st.session_state:
 
 # Detection loop
 if st.session_state['running']:
-    st.write("### **Real-Time Network Traffic Detection:**")
+    st.write("### 🚀 **Real-Time Network Traffic Detection:**")
+
+    normal_count = 0
+    ddos_count = 0
+
     try:
         while st.session_state['running']:
             # Generate traffic data
@@ -87,8 +92,17 @@ if st.session_state['running']:
 
             # Make prediction
             prediction = cnn_model.predict(scaled_input)
-            
-            # Display traffic values
+
+            # Determine if DDoS or normal
+            is_ddos = prediction[0][0] > threshold
+
+            # Count occurrences
+            if is_ddos:
+                ddos_count += 1
+            else:
+                normal_count += 1
+
+            # Display traffic data
             traffic_placeholder.write(
                 f"""
                 **Traffic Data:**  
@@ -102,17 +116,20 @@ if st.session_state['running']:
                 """
             )
 
-            # Determine result and color
-            is_ddos = prediction[0][0] > threshold
+            # Display detection result
             result = "🚀 **DDoS Attack Detected!**" if is_ddos else "✅ **Normal Traffic**"
             color = "red" if is_ddos else "green"
 
-            # Display prediction with color indicator
             status_placeholder.markdown(
                 f"<div style='background-color:{color}; padding:10px; border-radius:10px;'>"
                 f"<h2 style='color:white; text-align:center;'>{result}</h2>"
                 f"</div>", unsafe_allow_html=True
             )
+
+            # Display DDoS vs Normal traffic count
+            st.write("### 📊 **Traffic Statistics:**")
+            st.write(f"- **DDoS Attacks:** {ddos_count}")
+            st.write(f"- **Normal Traffic:** {normal_count}")
 
             # Refresh every 2 seconds
             time.sleep(2)
