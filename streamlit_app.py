@@ -132,7 +132,7 @@ if st.session_state['running']:
             st.write(f"- **Normal Traffic:** {normal_count}")
 
             # Refresh every 2 seconds
-            time.sleep(2)
+            time.sleep(1)
 
     except Exception as e:
         st.error(f"❌ Error: {e}")
