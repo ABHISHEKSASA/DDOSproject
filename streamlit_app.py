@@ -13,7 +13,7 @@ def load_model():
 cnn_model = load_model()
 
 # Load the saved scaler
-@st.cache_resource
+@st.cache_resource 
 def load_scaler():
     with open("scaler (2).pkl", "rb") as f:
         scaler = pickle.load(f)
