@@ -104,7 +104,7 @@ if st.session_state['running']:
 
             # Determine result and color
             is_ddos = prediction[0][0] > threshold
-            result = "🚀 **DDoS Attack Detected!**" if is_ddos else "✅ **Normal Traffic**"
+            result = "🚀 DDoS Attack Detected!" if is_ddos else "✅ Normal Traffic"
             color = "red" if is_ddos else "green"
 
             # Display prediction with color indicator
