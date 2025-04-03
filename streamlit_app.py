@@ -7,14 +7,14 @@ import time
 # Load the CNN feature extractor
 @st.cache_resource
 def load_cnn_model():
-    return tf.keras.models.load_model("cnn_feature_extractor.h5")
+    return tf.keras.models.load_model("cnn_feature_extractor (1).h5")
 
 cnn_model = load_cnn_model()
 
 # Load the Random Forest classifier
 @st.cache_resource
 def load_rf_model():
-    return joblib.load("rf_model.pkl")  # Fixed: Use joblib
+    return joblib.load("rf_model (1).pkl")  # Fixed: Use joblib
 
 rf_model = load_rf_model()
 
