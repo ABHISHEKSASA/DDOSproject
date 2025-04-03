@@ -7,21 +7,21 @@ import time
 # Load the CNN feature extractor
 @st.cache_resource
 def load_cnn_model():
-    return tf.keras.models.load_model("cnn_feature_extractor (1).h5")
+    return tf.keras.models.load_model("https://github.com/ABHISHEKSASA/DDOSproject/blob/master/cnn_feature_extractor%20(1).h5")
 
 cnn_model = load_cnn_model()
 
 # Load the Random Forest classifier
 @st.cache_resource
 def load_rf_model():
-    return joblib.load("rf_model (1).pkl")  # Fixed: Use joblib
+    return joblib.load("http://github.com/ABHISHEKSASA/DDOSproject/blob/master/rf_model%20(1).pkl")  # Fixed: Use joblib
 
 rf_model = load_rf_model()
 
 # Load the saved scaler
 @st.cache_resource
 def load_scaler():
-    return joblib.load("scaler.pkl")  # Fixed: Use joblib
+    return joblib.load("https://github.com/ABHISHEKSASA/DDOSproject/blob/master/scaler.pkl")  # Fixed: Use joblib
 
 scaler = load_scaler()
 
