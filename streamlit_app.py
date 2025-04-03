@@ -61,7 +61,7 @@ if stop_btn:
     st.session_state['running'] = False
 
 # Prediction threshold
-threshold = 0.3
+threshold = 0.2
 
 # Detection loop (one by one)
 if st.session_state['running']:
