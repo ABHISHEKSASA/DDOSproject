@@ -104,16 +104,10 @@ if menu == "Home":
     # Header section
     st.markdown("""
     <div class="block-header">
-        <h1 style="color:white; margin-bottom:0.5rem;">AI-Powered DDoS Protection</h1>
+        <h1 style="color:white; margin-bottom:0.5rem;">ML-DDoS DETECTION</h1>
         <p style="color:white; font-size:1.1rem;">Detecting threats using AI and ML</p>
     </div>
     """, unsafe_allow_html=True)
-
-    col1, col2 = st.columns([1,1])
-    with col1:
-        st.button("Start DDoS Monitoring", type="primary")
-    with col2:
-        st.button("Learn How It Works")
 
     st.markdown("---")
 
@@ -164,7 +158,7 @@ if menu == "Home":
     st.markdown("""
     <div class="block-card">
         <h2>Real-Time DDoS Detection</h2>
-        <p>Our AI system analyzes network traffic 24/7, identifying potential DDoS attacks as they occur.</p>
+        <p>Our ML system analyzes network traffic 24/7, identifying potential DDoS attacks as they occur.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -246,14 +240,14 @@ elif menu == "Why AI for DDoS":
         <h3>Key Benefits:</h3>
         <ul>
             <li>Adaptive detection of emerging threats</li>
+            <li></li>
             <li>Real-time traffic classification for accurate alerts</li>
+            <li></li>
             <li>Automated response triggered by AI predictions</li>
         </ul>
     </div>
     """
     st.components.v1.html(html_block_why_ai, height=200) # Adjust height as needed
-
-    st.image("https://via.placeholder.com/1200x500?text=AI+Cybersecurity+Infographic", use_column_width=True)
 
 # How It Works Page
 elif menu == "How It Works":
@@ -270,13 +264,16 @@ elif menu == "How It Works":
         <h3>Model Workflow:</h3>
         <ol>
             <li>Collect network traffic traffic data in real-time</li>
+            <li></li>
             <li>Preprocess and scale the data</li>
+            <li></li>
             <li>Use CNN to extract relevant features</li>
+            <li></li>
             <li>Classify the traffic using Random Forest</li>
+            <li></li>
             <li>Provide instant alerts if a DDoS attack is detected</li>
         </ol>
     </div>
     """
     st.components.v1.html(html_block_how_it_works, height=250) # Adjust height as needed
 
-    st.image("https://via.placeholder.com/1200x500?text=ML+Model+Flow", use_column_width=True)
