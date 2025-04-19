@@ -60,15 +60,7 @@ st.markdown("""
         background: var(--light);
         border-left: 3px solid var(--accent);
     }
-    
-    .pricing-card {
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-        background: white;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        border-top: 4px solid var(--primary);
-    }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -113,14 +105,14 @@ if menu == "Home":
     # Header section
     st.markdown("""
     <div class="block-header">
-        <h1 style="color:white; margin-bottom:0.5rem;">Unleashing the Power of Blockchain Security</h1>
-        <p style="color:white; font-size:1.1rem;">Protecting networks with decentralized, tamper-proof AI detection</p>
+        <h1 style="color:white; margin-bottom:0.5rem;">Unleashing the Power of ML Security</h1>
+        <p style="color:white; font-size:1.1rem;">Protecting networks with ML detection</p>
     </div>
     """, unsafe_allow_html=True)
     
     col1, col2 = st.columns([1,1])
     with col1:
-        st.button("Get Started with BlockShield", type="primary")
+        st.button("Get Started with DDOS", type="primary")
     with col2:
         st.button("Discover How It Works")
     
@@ -128,9 +120,9 @@ if menu == "Home":
     
     # Why Blockchain section
     st.markdown("""
-    <div class="blockchain-card">
-        <h2>Why Blockchain for Security?</h2>
-        <p>Blockchain is revolutionizing cybersecurity with immutable, decentralized protection against DDoS attacks.</p>
+    <div class="block-card">
+        <h2>Why ML for Security?</h2>
+        <p>MACHINE LEARNING is revolutionizing cybersecurity with Continuous monitoring protection against DDoS attacks.</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -139,7 +131,7 @@ if menu == "Home":
     with col1:
         st.markdown("""
         <div class="feature-card">
-            <h4>Decentralization</h4>
+            <h4>Continuous Monitoring</h4>
             <p>No single point of failure in our detection network</p>
         </div>
         """, unsafe_allow_html=True)
@@ -148,7 +140,6 @@ if menu == "Home":
         st.markdown("""
         <div class="feature-card">
             <h4>Security</h4>
-            <p>Tamper-proof attack records on the blockchain</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -173,7 +164,7 @@ if menu == "Home":
     st.markdown("""
     <div class="block-card">
         <h2>Real-Time DDoS Detection</h2>
-        <p>Our hybrid AI-blockchain system monitors your network 24/7</p>
+        <p>Our Hybrid AI-blockchain system monitors your network 24/7</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -244,22 +235,23 @@ if menu == "Home":
 elif menu == "Why Blockchain":
     st.markdown("""
     <div class="block-header">
-        <h1 style="color:white;">Why Blockchain Matters for Security</h1>
+        <h1 style="color:white;">Why ML Matters for Security</h1>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
-    <div class="blockc-card">
-        <p>Blockchain is revolutionizing how we handle cybersecurity, threat detection, and network protection. 
-        By combining decentralized architecture with our AI detection system, we create tamper-proof security 
-        that's resistant to manipulation.</p>
+    <div class="block-card">
+        <p>Machine Learning is transforming the way we approach cybersecurity, threat detection, and network protection.
+By leveraging intelligent algorithms and pattern recognition, our AI-based detection system offers real-time protection that's adaptive and highly accurate against evolving threats.</p>
         
         <h3>Key Benefits:</h3>
-        <ul>
-            <li>Immutable attack records that can't be altered</li>
-            <li>Distributed detection nodes for resilience</li>
-            <li>Transparent verification of all alerts</li>
-            <li>Smart contract automation for rapid response</li>
+        <ul><ul>
+    <li>Adaptive threat detection that evolves with emerging attack patterns</li>
+    <li>Real-time analysis for immediate threat identification and response</li>
+    <li>Accurate classification of network traffic for reliable alerts</li>
+    <li>Automated decision-making to trigger rapid responses based on model predictions</li>
+</ul>
+
         </ul>
     </div>
     """, unsafe_allow_html=True)
@@ -269,15 +261,15 @@ elif menu == "Why Blockchain":
 # How It Works Page
 elif menu == "How It Works":
     st.markdown("""
-    <div class="blockchain-header">
-        <h1 style="color:white;">How BlockShield AI Works</h1>
+    <div class="block-header">
+        <h1 style="color:white;">How DDOS AI Works</h1>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
-    <div class="blockchain-card">
+    <div class="block-card">
         <h3>Our Hybrid Protection System</h3>
-        <p>Combining artificial intelligence with blockchain technology for unbeatable security:</p>
+        <p>Artificial intelligence technology for unbeatable security:</p>
         
         <div style="display: flex; justify-content: space-between; margin: 2rem 0;">
             <div style="text-align: center; width: 30%;">
@@ -289,7 +281,7 @@ elif menu == "How It Works":
                 <p>CNN-RF hybrid identifies attack signatures</p>
             </div>
             <div style="text-align: center; width: 30%;">
-                <h4>3. Blockchain Verification</h4>
+                <h4>3. Verification</h4>
                 <p>Alerts are recorded on immutable ledger</p>
             </div>
         </div>
