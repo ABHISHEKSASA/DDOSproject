@@ -239,11 +239,9 @@ elif menu == "Why AI for DDoS":
 
         <h3>Key Benefits:</h3>
         <ul>
-            <li>Adaptive detection of emerging threats</li>
-            <li></li>
-            <li>Real-time traffic classification for accurate alerts</li>
-            <li></li>
-            <li>Automated response triggered by AI predictions</li>
+            <li style="margin-bottom: 10px;">Adaptive detection of emerging threats</li>
+            <li style="margin-bottom: 10px;">Real-time traffic classification for accurate alerts</li>
+            <li style="margin-bottom: 10px;">Automated response triggered by AI predictions</li>
         </ul>
     </div>
     """
@@ -263,17 +261,12 @@ elif menu == "How It Works":
 
         <h3>Model Workflow:</h3>
         <ol>
-            <li>Collect network traffic traffic data in real-time</li>
-            <li></li>
-            <li>Preprocess and scale the data</li>
-            <li></li>
-            <li>Use CNN to extract relevant features</li>
-            <li></li>
-            <li>Classify the traffic using Random Forest</li>
-            <li></li>
-            <li>Provide instant alerts if a DDoS attack is detected</li>
+            <li style="margin-bottom: 10px;">Collect network traffic data in real-time</li>
+            <li style="margin-bottom: 10px;">Preprocess and scale incoming data</li>
+            <li style="margin-bottom: 10px;">Extract meaningful features using a CNN model</li>
+            <li style="margin-bottom: 10px;">Classify the traffic using a trained Random Forest classifier</li>
+            <li style="margin-bottom: 10px;">Instantly alert if a DDoS attack is detected</li>
         </ol>
     </div>
     """
     st.components.v1.html(html_block_how_it_works, height=250) # Adjust height as needed
-
