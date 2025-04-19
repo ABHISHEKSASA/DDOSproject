@@ -8,7 +8,7 @@ from streamlit_extras.metric_cards import style_metric_cards
 
 # Page configuration
 st.set_page_config(
-    page_title="BlockShield AI",
+    page_title="DDOS AI",
     page_icon="🔗",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -26,8 +26,8 @@ st.markdown("""
         --light: #f8f9fa;
     }
     
-    /* Blockchain-inspired styling */
-    .blockchain-card {
+    /styling */
+    .block-card {
         border-radius: 12px;
         border-left: 5px solid var(--primary);
         padding: 1.5rem;
@@ -36,7 +36,7 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     
-    .blockchain-header {
+    .block-header {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         color: white;
         padding: 1.5rem;
@@ -44,7 +44,7 @@ st.markdown("""
         margin-bottom: 2rem;
     }
     
-    .blockchain-button {
+    .block-button {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         color: white !important;
         border: none;
@@ -104,15 +104,15 @@ def generate_traffic():
 
 # Navigation
 st.sidebar.image("https://img.icons8.com/color/96/000000/blockchain-new-logo.png", width=80)
-st.sidebar.title("BlockShield AI")
+st.sidebar.title("DDOS AI")
 
-menu = st.sidebar.radio("", ["Home", "Why Blockchain", "Pricing", "How It Works"])
+menu = st.sidebar.radio("", ["Home", "Why ML and DDOS", "How It Works"])
 
 # Home Page
 if menu == "Home":
     # Header section
     st.markdown("""
-    <div class="blockchain-header">
+    <div class="block-header">
         <h1 style="color:white; margin-bottom:0.5rem;">Unleashing the Power of Blockchain Security</h1>
         <p style="color:white; font-size:1.1rem;">Protecting networks with decentralized, tamper-proof AI detection</p>
     </div>
@@ -171,7 +171,7 @@ if menu == "Home":
     # Detection system
     st.markdown("---")
     st.markdown("""
-    <div class="blockchain-card">
+    <div class="block-card">
         <h2>Real-Time DDoS Detection</h2>
         <p>Our hybrid AI-blockchain system monitors your network 24/7</p>
     </div>
@@ -243,13 +243,13 @@ if menu == "Home":
 # Why Blockchain Page
 elif menu == "Why Blockchain":
     st.markdown("""
-    <div class="blockchain-header">
+    <div class="block-header">
         <h1 style="color:white;">Why Blockchain Matters for Security</h1>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
-    <div class="blockchain-card">
+    <div class="blockc-card">
         <p>Blockchain is revolutionizing how we handle cybersecurity, threat detection, and network protection. 
         By combining decentralized architecture with our AI detection system, we create tamper-proof security 
         that's resistant to manipulation.</p>
@@ -265,70 +265,6 @@ elif menu == "Why Blockchain":
     """, unsafe_allow_html=True)
     
     st.image("https://via.placeholder.com/1200x500?text=Blockchain+Security+Infographic", use_column_width=True)
-
-# Pricing Page
-elif menu == "Pricing":
-    st.markdown("""
-    <div class="blockchain-header">
-        <h1 style="color:white;">Pricing Plans</h1>
-        <p style="color:white;">Choose the plan that fits your security needs</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown("""
-        <div class="pricing-card">
-            <h3>Basic Protection</h3>
-            <h2>$199/month</h2>
-            <p>For small businesses</p>
-            <hr>
-            <ul>
-                <li>Real-time DDoS monitoring</li>
-                <li>Basic threat alerts</li>
-                <li>Email support</li>
-                <li>Limited blockchain verification</li>
-            </ul>
-            <button class="blockchain-button">Get Started</button>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div class="pricing-card" style="border-top-color: #9d50bb;">
-            <h3>Professional Suite</h3>
-            <h2>$349/month</h2>
-            <p>For growing enterprises</p>
-            <hr>
-            <ul>
-                <li>Everything in Basic</li>
-                <li>Advanced threat analysis</li>
-                <li>Priority support</li>
-                <li>Full blockchain verification</li>
-                <li>Monthly security reports</li>
-            </ul>
-            <button class="blockchain-button">Get Started</button>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown("""
-        <div class="pricing-card" style="border-top-color: #4776E6;">
-            <h3>Enterprise Shield</h3>
-            <h2>$495/month</h2>
-            <p>For critical infrastructure</p>
-            <hr>
-            <ul>
-                <li>Everything in Professional</li>
-                <li>24/7 dedicated support</li>
-                <li>Custom detection rules</li>
-                <li>Smart contract automation</li>
-                <li>On-demand security audits</li>
-            </ul>
-            <button class="blockchain-button">Get Started</button>
-        </div>
-        """, unsafe_allow_html=True)
 
 # How It Works Page
 elif menu == "How It Works":
