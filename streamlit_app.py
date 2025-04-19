@@ -239,7 +239,7 @@ elif menu == "Why AI for DDoS":
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
+    html_block_why_ai = """
     <div class="block-card">
         <p>Machine Learning is transforming how we approach cybersecurity, enabling us to detect DDoS attacks faster and more accurately by analyzing network traffic patterns in real time.</p>
 
@@ -250,7 +250,8 @@ elif menu == "Why AI for DDoS":
             <li>Automated response triggered by AI predictions</li>
         </ul>
     </div>
-    """, unsafe_allow_html=True)
+    """
+    st.components.v1.html(html_block_why_ai, height=200) # Adjust height as needed
 
     st.image("https://via.placeholder.com/1200x500?text=AI+Cybersecurity+Infographic", use_column_width=True)
 
@@ -262,7 +263,7 @@ elif menu == "How It Works":
     </div>
     """, unsafe_allow_html=True)
 
-    html_block = """
+    html_block_how_it_works = """
     <div class="block-card">
         <p>The AI system processes network traffic data and uses a combination of Convolutional Neural Networks (CNN) for feature extraction and Random Forest (RF) for threat classification to determine if the traffic is normal or a DDoS attack.</p>
 
@@ -276,6 +277,6 @@ elif menu == "How It Works":
         </ol>
     </div>
     """
-    st.components.v1.html(html_block, height=250) # Adjust height as needed
+    st.components.v1.html(html_block_how_it_works, height=250) # Adjust height as needed
 
     st.image("https://via.placeholder.com/1200x500?text=ML+Model+Flow", use_column_width=True)
