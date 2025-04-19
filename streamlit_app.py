@@ -8,13 +8,13 @@ from streamlit_extras.metric_cards import style_metric_cards
 
 # Page configuration
 st.set_page_config(
-    page_title="DDOS AI",
-    page_icon="🔗",
+    page_title="DDoS AI",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for blockchain theme
+# Custom CSS for AI/ML theme
 st.markdown("""
 <style>
     /* Main theme colors */
@@ -26,7 +26,7 @@ st.markdown("""
         --light: #f8f9fa;
     }
     
-    /styling */
+    /* Styling */
     .block-card {
         border-radius: 12px;
         border-left: 5px solid var(--primary);
@@ -60,7 +60,6 @@ st.markdown("""
         background: var(--light);
         border-left: 3px solid var(--accent);
     }
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -95,34 +94,34 @@ def generate_traffic():
 # ========== MAIN APP ========== #
 
 # Navigation
-st.sidebar.image("https://img.icons8.com/color/96/000000/blockchain-new-logo.png", width=80)
-st.sidebar.title("DDOS AI")
+st.sidebar.image("https://img.icons8.com/color/96/000000/artificial-intelligence.png", width=80)
+st.sidebar.title("DDoS AI")
 
-menu = st.sidebar.radio("", ["Home", "Why ML and DDOS", "How It Works"])
+menu = st.sidebar.radio("", ["Home", "Why AI for DDoS", "How It Works"])
 
 # Home Page
 if menu == "Home":
     # Header section
     st.markdown("""
     <div class="block-header">
-        <h1 style="color:white; margin-bottom:0.5rem;">Unleashing the Power of ML Security</h1>
-        <p style="color:white; font-size:1.1rem;">Protecting networks with ML detection</p>
+        <h1 style="color:white; margin-bottom:0.5rem;">AI-Powered DDoS Protection</h1>
+        <p style="color:white; font-size:1.1rem;">Detecting threats using AI and ML</p>
     </div>
     """, unsafe_allow_html=True)
     
     col1, col2 = st.columns([1,1])
     with col1:
-        st.button("Get Started with DDOS", type="primary")
+        st.button("Start DDoS Monitoring", type="primary")
     with col2:
-        st.button("Discover How It Works")
+        st.button("Learn How It Works")
     
     st.markdown("---")
     
-    # Why Blockchain section
+    # Why AI for DDoS section
     st.markdown("""
     <div class="block-card">
-        <h2>Why ML for Security?</h2>
-        <p>MACHINE LEARNING is revolutionizing cybersecurity with Continuous monitoring protection against DDoS attacks.</p>
+        <h2>Why AI for DDoS?</h2>
+        <p>AI and Machine Learning are transforming network security, continuously monitoring for DDoS threats with adaptive, real-time detection.</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -132,7 +131,7 @@ if menu == "Home":
         st.markdown("""
         <div class="feature-card">
             <h4>Continuous Monitoring</h4>
-            <p>No single point of failure in our detection network</p>
+            <p>Always on, detecting threats in real-time</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -140,6 +139,7 @@ if menu == "Home":
         st.markdown("""
         <div class="feature-card">
             <h4>Security</h4>
+            <p>AI-driven threat classification and response</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -147,7 +147,7 @@ if menu == "Home":
         st.markdown("""
         <div class="feature-card">
             <h4>Transparency</h4>
-            <p>Publicly verifiable detection results</p>
+            <p>Clear alerts and monitoring logs</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -155,7 +155,7 @@ if menu == "Home":
         st.markdown("""
         <div class="feature-card">
             <h4>Efficiency</h4>
-            <p>Cost-effective distributed protection</p>
+            <p>Optimized for performance and cost</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -164,7 +164,7 @@ if menu == "Home":
     st.markdown("""
     <div class="block-card">
         <h2>Real-Time DDoS Detection</h2>
-        <p>Our Hybrid AI-blockchain system monitors your network 24/7</p>
+        <p>Our AI system analyzes network traffic 24/7, identifying potential DDoS attacks as they occur.</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -231,70 +231,50 @@ if menu == "Home":
             st.error(f"System error: {str(e)}")
             st.session_state['running'] = False
 
-# Why Blockchain Page
-elif menu == "Why Blockchain":
+# Why AI for DDoS Page
+elif menu == "Why AI for DDoS":
     st.markdown("""
     <div class="block-header">
-        <h1 style="color:white;">Why ML Matters for Security</h1>
+        <h1 style="color:white;">Why AI for DDoS?</h1>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="block-card">
-        <p>Machine Learning is transforming the way we approach cybersecurity, threat detection, and network protection.
-By leveraging intelligent algorithms and pattern recognition, our AI-based detection system offers real-time protection that's adaptive and highly accurate against evolving threats.</p>
+        <p>Machine Learning is transforming how we approach cybersecurity, enabling us to detect DDoS attacks faster and more accurately by analyzing network traffic patterns in real time.</p>
         
         <h3>Key Benefits:</h3>
-        <ul><ul>
-    <li>Adaptive threat detection that evolves with emerging attack patterns</li>
-    <li>Real-time analysis for immediate threat identification and response</li>
-    <li>Accurate classification of network traffic for reliable alerts</li>
-    <li>Automated decision-making to trigger rapid responses based on model predictions</li>
-</ul>
-
+        <ul>
+            <li>Adaptive detection of emerging threats</li>
+            <li>Real-time traffic classification for accurate alerts</li>
+            <li>Automated response triggered by AI predictions</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
     
-    st.image("https://via.placeholder.com/1200x500?text=Blockchain+Security+Infographic", use_column_width=True)
+    st.image("https://via.placeholder.com/1200x500?text=AI+Cybersecurity+Infographic", use_column_width=True)
 
 # How It Works Page
 elif menu == "How It Works":
     st.markdown("""
     <div class="block-header">
-        <h1 style="color:white;">How DDOS AI Works</h1>
+        <h1 style="color:white;">How the AI Model Detects DDoS</h1>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="block-card">
-        <h3>Our Hybrid Protection System</h3>
-        <p>Artificial intelligence technology for unbeatable security:</p>
+        <p>The AI system processes network traffic data and uses a combination of Convolutional Neural Networks (CNN) for feature extraction and Random Forest (RF) for threat classification to determine if the traffic is normal or a DDoS attack.</p>
         
-        <div style="display: flex; justify-content: space-between; margin: 2rem 0;">
-            <div style="text-align: center; width: 30%;">
-                <h4>1. Traffic Analysis</h4>
-                <p>AI models monitor network patterns in real-time</p>
-            </div>
-            <div style="text-align: center; width: 30%;">
-                <h4>2. Threat Detection</h4>
-                <p>CNN-RF hybrid identifies attack signatures</p>
-            </div>
-            <div style="text-align: center; width: 30%;">
-                <h4>3. Verification</h4>
-                <p>Alerts are recorded on immutable ledger</p>
-            </div>
-        </div>
-        
-        <h3>Technical Architecture</h3>
-        <p>Our system combines multiple layers of protection:</p>
+        <h3>Model Workflow:</h3>
         <ol>
-            <li><strong>Data Layer:</strong> Collects network traffic metrics</li>
-            <li><strong>AI Layer:</strong> Analyzes patterns using deep learning</li>
-            <li><strong>Blockchain Layer:</strong> Secures detection results</li>
-            <li><strong>Response Layer:</strong> Automates mitigation</li>
+            <li>Collect network traffic data in real-time</li>
+            <li>Preprocess and scale the data</li>
+            <li>Use CNN to extract relevant features</li>
+            <li>Classify the traffic using Random Forest</li>
+            <li>Provide instant alerts if a DDoS attack is detected</li>
         </ol>
     </div>
     """, unsafe_allow_html=True)
-    
-    st.image("https://via.placeholder.com/1200x600?text=System+Architecture+Diagram", use_column_width=True)
+
+    st.image("https://via.placeholder.com/1200x500?text=ML+Model+Flow", use_column_width=True)
